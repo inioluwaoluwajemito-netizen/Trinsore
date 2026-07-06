@@ -103,6 +103,7 @@ img {
     color: var(--gold-primary);
     background: var(--gold-gradient);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
