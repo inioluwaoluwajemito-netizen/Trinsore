@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTestimonials();
     initInquiryForm();
     initScrollAnimations();
+    initCalendar();
 });
 
 /* ==========================================================================
@@ -334,6 +335,8 @@ function validateForm() {
     const name = document.getElementById('clientName');
     const phone = document.getElementById('clientPhone');
     const eventType = document.getElementById('eventType');
+    const eventDate = document.getElementById('eventDate');
+    const timeSlot = document.getElementById('selectedTimeSlot');
     const message = document.getElementById('clientMessage');
     
     // Validate Name
@@ -352,6 +355,18 @@ function validateForm() {
     // Validate Event Type Select
     if (!eventType.value) {
         showError(eventType);
+        isValid = false;
+    }
+    
+    // Validate Event Date
+    if (!eventDate.value) {
+        showError(eventDate);
+        isValid = false;
+    }
+    
+    // Validate Time Slot
+    if (document.getElementById('timeSlotGroup').style.display !== 'none' && !timeSlot.value) {
+        showError(timeSlot);
         isValid = false;
     }
     
@@ -376,6 +391,7 @@ function sendWhatsAppMessage() {
     const phone = document.getElementById('clientPhone').value.trim();
     const eventType = document.getElementById('eventType').value;
     const eventDate = document.getElementById('eventDate').value;
+    const timeSlot = document.getElementById('selectedTimeSlot').value;
     const message = document.getElementById('clientMessage').value.trim();
     
     // Format Date
@@ -398,6 +414,7 @@ function sendWhatsAppMessage() {
 *Phone Number:* ${phone}
 *Requested Service:* ${eventType}
 *Preferred Event Date:* ${dateStr}
+*Consultation Time:* ${timeSlot || 'Not specified'}
 
 *Message details:*
 ${message}
@@ -439,4 +456,165 @@ function initScrollAnimations() {
     }, observerOptions);
     
     fadeElements.forEach(el => observer.observe(el));
+}
+
+/* ==========================================================================
+   9. Custom Interactive Calendar & Time Slots
+   ========================================================================== */
+function initCalendar() {
+    const calMonthYear = document.getElementById('calMonthYear');
+    const calendarDaysGrid = document.getElementById('calendarDaysGrid');
+    const prevMonthBtn = document.getElementById('prevMonthBtn');
+    const nextMonthBtn = document.getElementById('nextMonthBtn');
+    
+    const eventDateInput = document.getElementById('eventDateInput');
+    const eventDateHidden = document.getElementById('eventDate');
+    const timeSlotGroup = document.getElementById('timeSlotGroup');
+    const selectedTimeSlotInput = document.getElementById('selectedTimeSlot');
+    const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+    
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth(); // 0-11
+    let currentYear = currentDate.getFullYear();
+    
+    let selectedDate = null;
+    
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    
+    const renderCalendar = () => {
+        // Clear previous grid
+        calendarDaysGrid.innerHTML = '';
+        
+        // Update Title Header
+        calMonthYear.textContent = `${months[currentMonth]} ${currentYear}`;
+        
+        // Get first day of the month and number of days
+        const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay(); // 0 (Sun) to 6 (Sat)
+        const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+        
+        // Spacer cells for previous month empty offsets
+        for (let i = 0; i < firstDayIndex; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.classList.add('calendar-day', 'empty');
+            calendarDaysGrid.appendChild(emptyCell);
+        }
+        
+        // Get today's details for comparison
+        const today = new Date();
+        const todayDate = today.getDate();
+        const todayMonth = today.getMonth();
+        const todayYear = today.getFullYear();
+        
+        // Populate days
+        for (let day = 1; day <= totalDays; day++) {
+            const dayCell = document.createElement('div');
+            dayCell.classList.add('calendar-day');
+            dayCell.textContent = day;
+            
+            // Check if day is in the past
+            const thisDayDate = new Date(currentYear, currentMonth, day);
+            const isPast = new Date(todayYear, todayMonth, todayDate) > thisDayDate;
+            
+            if (isPast) {
+                dayCell.classList.add('disabled');
+            } else {
+                // Highlight today
+                if (day === todayDate && currentMonth === todayMonth && currentYear === todayYear) {
+                    dayCell.classList.add('today');
+                }
+                
+                // Highlight selected date
+                if (selectedDate && 
+                    day === selectedDate.getDate() && 
+                    currentMonth === selectedDate.getMonth() && 
+                    currentYear === selectedDate.getFullYear()) {
+                    dayCell.classList.add('selected');
+                }
+                
+                // Click listener to select date
+                dayCell.addEventListener('click', () => {
+                    // Remove selected styling from others
+                    const activeDays = calendarDaysGrid.querySelectorAll('.calendar-day.selected');
+                    activeDays.forEach(d => d.classList.remove('selected'));
+                    
+                    dayCell.classList.add('selected');
+                    selectedDate = new Date(currentYear, currentMonth, day);
+                    
+                    // Format and populate display inputs
+                    const yearStr = selectedDate.getFullYear();
+                    const monthStr = String(selectedDate.getMonth() + 1).padStart(2, '0');
+                    const dayStr = String(selectedDate.getDate()).padStart(2, '0');
+                    
+                    // Format visual date (e.g. Saturday, August 15, 2026)
+                    const visualDate = selectedDate.toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    
+                    eventDateHidden.value = `${yearStr}-${monthStr}-${dayStr}`;
+                    eventDateInput.value = visualDate;
+                    
+                    // Remove error if any
+                    const group = eventDateHidden.closest('.form-group');
+                    if (group) group.classList.remove('has-error');
+                    
+                    // Display and slide time slots group down
+                    timeSlotGroup.style.display = 'block';
+                    
+                    // Trigger scroll animation check or view slots
+                    timeSlotGroup.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                });
+            }
+            
+            calendarDaysGrid.appendChild(dayCell);
+        }
+    };
+    
+    // Month toggle navigation
+    prevMonthBtn.addEventListener('click', () => {
+        // Restrict navigating into past months
+        const today = new Date();
+        const minDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        const targetDate = new Date(currentYear, currentMonth - 1, 1);
+        
+        if (targetDate >= minDate) {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        }
+    });
+    
+    nextMonthBtn.addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        renderCalendar();
+    });
+    
+    // Time slots selection
+    const timeSlots = timeSlotsContainer.querySelectorAll('.time-slot');
+    timeSlots.forEach(slot => {
+        slot.addEventListener('click', () => {
+            timeSlots.forEach(s => s.classList.remove('selected'));
+            slot.classList.add('selected');
+            selectedTimeSlotInput.value = slot.getAttribute('data-time');
+            
+            // Clean error states
+            const group = selectedTimeSlotInput.closest('.form-group');
+            if (group) group.classList.remove('has-error');
+        });
+    });
+    
+    // Initial Render
+    renderCalendar();
 }

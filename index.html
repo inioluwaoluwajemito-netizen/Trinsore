@@ -513,11 +513,42 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="eventDate">Preferred Event Date</label>
-                                <div class="input-wrapper">
+                                <label>Preferred Event Date <span class="required">*</span></label>
+                                <div class="input-wrapper date-picker-wrapper">
                                     <i class="fa-solid fa-calendar-days input-icon"></i>
-                                    <input type="date" id="eventDate">
+                                    <input type="text" id="eventDateInput" placeholder="Select a date from the calendar..." readonly required>
+                                    <input type="hidden" id="eventDate" required>
                                 </div>
+                                <span class="error-msg" id="dateError">Please select an event date</span>
+                                
+                                <!-- Custom Luxury Inline Calendar -->
+                                <div class="custom-calendar-card" id="calendarCard">
+                                    <div class="calendar-nav-header">
+                                        <button type="button" class="cal-btn" id="prevMonthBtn" aria-label="Previous Month"><i class="fa-solid fa-chevron-left"></i></button>
+                                        <h4 class="cal-month-title" id="calMonthYear">July 2026</h4>
+                                        <button type="button" class="cal-btn" id="nextMonthBtn" aria-label="Next Month"><i class="fa-solid fa-chevron-right"></i></button>
+                                    </div>
+                                    <div class="calendar-days-header">
+                                        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                                    </div>
+                                    <div class="calendar-grid" id="calendarDaysGrid">
+                                        <!-- Rendered dynamically by JS -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Time Slot Group -->
+                            <div class="form-group" id="timeSlotGroup" style="display: none;">
+                                <label>Select Preferred Consultation Time <span class="required">*</span></label>
+                                <div class="time-slots-container" id="timeSlotsContainer">
+                                    <button type="button" class="time-slot" data-time="09:00 AM">09:00 AM</button>
+                                    <button type="button" class="time-slot" data-time="11:00 AM">11:00 AM</button>
+                                    <button type="button" class="time-slot" data-time="01:00 PM">01:00 PM</button>
+                                    <button type="button" class="time-slot" data-time="03:00 PM">03:00 PM</button>
+                                    <button type="button" class="time-slot" data-time="05:00 PM">05:00 PM</button>
+                                </div>
+                                <input type="hidden" id="selectedTimeSlot">
+                                <span class="error-msg" id="timeError">Please choose a consultation time</span>
                             </div>
 
                             <div class="form-group">
