@@ -705,7 +705,8 @@ function initAdminPanel() {
     const authSection = document.getElementById('adminAuthSection');
     const panelSection = document.getElementById('adminPanelSection');
     
-    const adminPinInput = document.getElementById('adminPin');
+    const adminEmailInput = document.getElementById('adminEmail');
+    const adminPasswordInput = document.getElementById('adminPassword');
     const authSubmitBtn = document.getElementById('authSubmitBtn');
     const authErrorMsg = document.getElementById('authErrorMsg');
     
@@ -722,7 +723,8 @@ function initAdminPanel() {
     const uploadStatus = document.getElementById('uploadStatus');
     const uploadSubmitBtn = document.getElementById('uploadSubmitBtn');
     
-    const DEFAULT_PIN = '1234'; // Default admin PIN code
+    const ADMIN_EMAIL = 'trinsorecartel@gmail.com';
+    const ADMIN_PASSWORD = 'Trinsore1';
     
     if (trigger) {
         trigger.addEventListener('click', (e) => {
@@ -737,9 +739,10 @@ function initAdminPanel() {
             } else {
                 authSection.style.display = 'block';
                 panelSection.style.display = 'none';
-                adminPinInput.value = '';
+                adminEmailInput.value = '';
+                adminPasswordInput.value = '';
                 authErrorMsg.style.display = 'none';
-                adminPinInput.focus();
+                adminEmailInput.focus();
             }
         });
     }
@@ -754,22 +757,27 @@ function initAdminPanel() {
     if (authSubmitBtn) {
         authSubmitBtn.addEventListener('click', handleAuth);
     }
-    if (adminPinInput) {
-        adminPinInput.addEventListener('keypress', (e) => {
+    if (adminEmailInput) {
+        adminEmailInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') adminPasswordInput.focus();
+        });
+    }
+    if (adminPasswordInput) {
+        adminPasswordInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleAuth();
         });
     }
     
     function handleAuth() {
-        if (adminPinInput.value === DEFAULT_PIN) {
+        if (adminEmailInput.value.trim().toLowerCase() === ADMIN_EMAIL && adminPasswordInput.value === ADMIN_PASSWORD) {
             sessionStorage.setItem('trinsore_admin_authenticated', 'true');
             authSection.style.display = 'none';
             panelSection.style.display = 'block';
             loadConfig();
         } else {
             authErrorMsg.style.display = 'block';
-            adminPinInput.value = '';
-            adminPinInput.focus();
+            adminPasswordInput.value = '';
+            adminPasswordInput.focus();
         }
     }
     
