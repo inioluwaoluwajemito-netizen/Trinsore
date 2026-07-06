@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initInquiryForm();
     initScrollAnimations();
     initCalendar();
+    initVideoControl();
 });
 
 /* ==========================================================================
@@ -631,4 +632,24 @@ function initCalendar() {
     
     // Initial Render
     renderCalendar();
+}
+
+/* ==========================================================================
+   9. Zobolinks Video Control
+   ========================================================================== */
+function initVideoControl() {
+    const video = document.getElementById('zoboVideo');
+    const muteBtn = document.getElementById('videoMuteBtn');
+    
+    if (video && muteBtn) {
+        muteBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            const icon = muteBtn.querySelector('i');
+            if (video.muted) {
+                icon.className = 'fa-solid fa-volume-xmark';
+            } else {
+                icon.className = 'fa-solid fa-volume-high';
+            }
+        });
+    }
 }
