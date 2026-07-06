@@ -303,6 +303,20 @@ window.prefillService = function(serviceName) {
     }
 };
 
+window.prefillZobo = function(productName) {
+    const eventTypeSelect = document.getElementById('eventType');
+    const messageField = document.getElementById('clientMessage');
+    
+    if (eventTypeSelect) {
+        eventTypeSelect.value = "Zobolinks Hibiscus Drinks";
+        eventTypeSelect.focus();
+    }
+    
+    if (messageField) {
+        messageField.value = `Hello Trinsore Events, I'd like to place an order/inquire for your signature Zobolinks drink: *${productName}* for my upcoming event. Please share pricing and options.`;
+    }
+};
+
 /* ==========================================================================
    7. Form Validation & WhatsApp Submission
    ========================================================================== */
