@@ -357,114 +357,8 @@
                 </div>
 
                 <!-- Gallery Grid -->
-                <div class="gallery-grid fade-in">
-                    <!-- Image 1 -->
-                    <div class="gallery-item" data-category="bridals">
-                        <div class="gallery-img-box">
-                            <img src="assets/images/bridal_couple.jpg" alt="Traditional wedding couple styling by Trinsore Events">
-                            <div class="gallery-overlay">
-                                <span class="gallery-category">Bridals & Events</span>
-                                <h4 class="gallery-item-title">Traditional Wedding Styling</h4>
-                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Image 2 -->
-                    <div class="gallery-item" data-category="makeup">
-                        <div class="gallery-img-box">
-                            <img src="assets/images/pink_gele_bride.jpg" alt="Bridal makeup and pink gele tied by Trinsore Events">
-                            <div class="gallery-overlay">
-                                <span class="gallery-category">Makeup & Gele</span>
-                                <h4 class="gallery-item-title">Pink Gele & Bridal Styling</h4>
-                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Image 3 -->
-                    <div class="gallery-item" data-category="beads">
-                        <div class="gallery-img-box">
-                            <img src="assets/images/beads_aso_ofi.png" alt="Intricate coral bead setup and Aso Ofi by Trinsore Events">
-                            <div class="gallery-overlay">
-                                <span class="gallery-category">Beads & Aso Ofi</span>
-                                <h4 class="gallery-item-title">Coral Majesty Bridal Suite</h4>
-                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Image 4 -->
-                    <div class="gallery-item" data-category="catering">
-                        <div class="gallery-img-box">
-                            <img src="assets/images/zobo_licious.jpg" alt="Zobolinks ZoboLicious Hibiscus Drink by Trinsore Events">
-                            <div class="gallery-overlay">
-                                <span class="gallery-category">Catering</span>
-                                <h4 class="gallery-item-title">ZoboLicious Hibiscus Drink</h4>
-                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Image 5 -->
-                    <div class="gallery-item" data-category="fascinators">
-                        <div class="gallery-img-box">
-                            <img src="assets/images/fascinators.png" alt="Bespoke luxury fascinator by Trinsore Events">
-                            <div class="gallery-overlay">
-                                <span class="gallery-category">Fascinators</span>
-                                <h4 class="gallery-item-title">High-Society Pearl Fascinator</h4>
-                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Image 6 -->
-                    <div class="gallery-item" data-category="catering">
-                        <div class="gallery-img-box">
-                            <img src="assets/images/zobo_beetnut.jpg" alt="Zobolinks ZoboBeetNut Wellness Hibiscus Drink by Trinsore Events">
-                            <div class="gallery-overlay">
-                                <span class="gallery-category">Catering</span>
-                                <h4 class="gallery-item-title">ZoboBeetNut Wellness Drink</h4>
-                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Image 7 -->
-                    <div class="gallery-item" data-category="catering">
-                        <div class="gallery-img-box">
-                            <img src="assets/images/zobo_fit.jpg" alt="Zobolinks ZoboFit Organic Hibiscus Drink by Trinsore Events">
-                            <div class="gallery-overlay">
-                                <span class="gallery-category">Catering</span>
-                                <h4 class="gallery-item-title">ZoboFit Organic Hibiscus</h4>
-                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Image 8 -->
-                    <div class="gallery-item" data-category="bridals">
-                        <div class="gallery-img-box">
-                            <img src="assets/images/bridals_events.png" alt="Luxury reception setup by Trinsore Events">
-                            <div class="gallery-overlay">
-                                <span class="gallery-category">Bridals & Events</span>
-                                <h4 class="gallery-item-title">Ornate Banquet Hall Design</h4>
-                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Image 9 -->
-                    <div class="gallery-item" data-category="catering">
-                        <div class="gallery-img-box">
-                            <img src="assets/images/catering_services.png" alt="Dessert buffet catering by Trinsore Events">
-                            <div class="gallery-overlay">
-                                <span class="gallery-category">Catering</span>
-                                <h4 class="gallery-item-title">Exquisite Dessert Table</h4>
-                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="gallery-grid fade-in" id="galleryGrid">
+                    <!-- Dynamic items will render from portfolio.json via JavaScript -->
                 </div>
             </div>
         </section>
@@ -745,7 +639,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Trinsore Events. All Rights Reserved.</p>
+                <p>&copy; 2026 Trinsore Events. All Rights Reserved. | <a href="#" id="admin-login-trigger" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: var(--transition-fast);">Admin Panel</a></p>
                 <div class="footer-socials">
                     <a href="https://instagram.com/trinsore_events" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="https://wa.me/2348137270255" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
@@ -769,6 +663,88 @@
         </div>
 
         <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next Image"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Admin Portal Modal -->
+    <div class="admin-modal" id="adminModal" aria-hidden="true" role="dialog">
+        <div class="admin-modal-card">
+            <button class="admin-modal-close" id="adminCloseBtn">&times;</button>
+            <div id="adminAuthSection">
+                <h3 class="gold-text text-center">Admin Access</h3>
+                <p class="text-muted text-center" style="font-size: 0.9rem; margin-bottom: 20px;">Enter security PIN to modify portfolio.</p>
+                <div class="form-group">
+                    <label for="adminPin">Security PIN</label>
+                    <input type="password" id="adminPin" placeholder="••••" maxlength="4" style="text-align: center; font-size: 1.5rem; letter-spacing: 5px;">
+                    <span class="error-msg" id="authErrorMsg">Incorrect PIN. Please try again.</span>
+                </div>
+                <button type="button" class="btn btn-gold btn-full" id="authSubmitBtn" style="margin-top: 15px;">Access Panel</button>
+            </div>
+            
+            <div id="adminPanelSection" style="display: none;">
+                <h3 class="gold-text text-center" style="margin-bottom: 5px;">Portfolio Manager</h3>
+                <p class="text-muted text-center" style="font-size: 0.85rem; margin-bottom: 20px;">Upload image and sync directly to GitHub</p>
+                
+                <form id="adminUploadForm">
+                    <!-- Config Section (Collapsible) -->
+                    <details class="admin-config-details" style="margin-bottom: 20px;">
+                        <summary style="cursor: pointer; color: var(--gold-primary); font-size: 0.85rem; font-weight: 600;">GitHub API Settings</summary>
+                        <div style="padding: 15px 0 0 0; display: flex; flex-direction: column; gap: 12px;">
+                            <div class="form-group">
+                                <label for="gitToken">Personal Access Token (PAT)</label>
+                                <input type="password" id="gitToken" placeholder="ghp_xxxxxxxxxxxx">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="gitOwner">Username</label>
+                                    <input type="text" id="gitOwner" placeholder="inioluwaoluwajemito-netizen">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gitRepo">Repository</label>
+                                    <input type="text" id="gitRepo" placeholder="Trinsore">
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                    
+                    <div class="form-group">
+                        <label for="uploadTitle">Image Title</label>
+                        <input type="text" id="uploadTitle" placeholder="e.g. Royal Pink Gele Glam" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="uploadCategory">Category</label>
+                            <select id="uploadCategory" required>
+                                <option value="" disabled selected>Select category...</option>
+                                <option value="bridals">Bridals & Events</option>
+                                <option value="makeup">Makeup & Gele</option>
+                                <option value="beads">Beads & Aso Ofi</option>
+                                <option value="fascinators">Fascinators</option>
+                                <option value="catering">Catering</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="uploadFile">Image File</label>
+                            <input type="file" id="uploadFile" accept="image/*" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="uploadAlt">Description (Alt Text)</label>
+                        <input type="text" id="uploadAlt" placeholder="Brief descriptive caption..." required>
+                    </div>
+                    
+                    <div class="upload-status" id="uploadStatus" style="display: none; padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 0.9rem;">
+                        <!-- Status text will dynamically populate here -->
+                    </div>
+                    
+                    <button type="submit" class="btn btn-gold btn-full" id="uploadSubmitBtn">
+                        <span class="btn-text"><i class="fa-solid fa-cloud-arrow-up"></i> Upload & Publish</span>
+                        <span class="btn-spinner" style="display: none;"><i class="fa-solid fa-spinner fa-spin"></i> Uploading to Git...</span>
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Custom Script -->

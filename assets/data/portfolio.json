@@ -1,0 +1,65 @@
+[
+  {
+    "id": "1",
+    "title": "Traditional Wedding Styling",
+    "category": "bridals",
+    "image": "assets/images/bridal_couple.jpg",
+    "alt": "Traditional wedding couple styling by Trinsore Events"
+  },
+  {
+    "id": "2",
+    "title": "Pink Gele & Bridal Styling",
+    "category": "makeup",
+    "image": "assets/images/pink_gele_bride.jpg",
+    "alt": "Bridal makeup and pink gele tied by Trinsore Events"
+  },
+  {
+    "id": "3",
+    "title": "Coral Majesty Bridal Suite",
+    "category": "beads",
+    "image": "assets/images/beads_aso_ofi.png",
+    "alt": "Intricate coral bead setup and Aso Ofi by Trinsore Events"
+  },
+  {
+    "id": "4",
+    "title": "ZoboLicious Hibiscus Drink",
+    "category": "catering",
+    "image": "assets/images/zobo_licious.jpg",
+    "alt": "Zobolinks ZoboLicious Hibiscus Drink by Trinsore Events"
+  },
+  {
+    "id": "5",
+    "title": "High-Society Pearl Fascinator",
+    "category": "fascinators",
+    "image": "assets/images/fascinators.png",
+    "alt": "Bespoke luxury fascinator by Trinsore Events"
+  },
+  {
+    "id": "6",
+    "title": "ZoboBeetNut Wellness Drink",
+    "category": "catering",
+    "image": "assets/images/zobo_beetnut.jpg",
+    "alt": "Zobolinks ZoboBeetNut Wellness Hibiscus Drink by Trinsore Events"
+  },
+  {
+    "id": "7",
+    "title": "ZoboFit Organic Hibiscus",
+    "category": "catering",
+    "image": "assets/images/zobo_fit.jpg",
+    "alt": "Zobolinks ZoboFit Organic Hibiscus Drink by Trinsore Events"
+  },
+  {
+    "id": "8",
+    "title": "Ornate Banquet Hall Design",
+    "category": "bridals",
+    "image": "assets/images/bridals_events.png",
+    "alt": "Luxury reception setup by Trinsore Events"
+  },
+  {
+    "id": "9",
+    "title": "Exquisite Dessert Table",
+    "category": "catering",
+    "image": "assets/images/catering_services.png",
+    "alt": "Dessert buffet catering by Trinsore Events"
+  }
+]

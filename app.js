@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollHeader();
     initMobileNav();
     initPortfolioFilter();
-    initLightbox();
     initTestimonials();
     initInquiryForm();
     initScrollAnimations();
     initCalendar();
     initVideoControl();
+    initAdminPanel();
 });
 
 /* ==========================================================================
@@ -74,41 +74,81 @@ function initMobileNav() {
    3. Portfolio Filtering System
    ========================================================================== */
 let activeCategory = 'all';
+let portfolioItems = [];
 
-function initPortfolioFilter() {
+async function initPortfolioFilter() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
+    const galleryGrid = document.getElementById('galleryGrid');
+    
+    if (!galleryGrid) return;
+    
+    try {
+        const response = await fetch('assets/data/portfolio.json');
+        if (!response.ok) throw new Error('Failed to load portfolio items');
+        portfolioItems = await response.json();
+        
+        renderGallery(portfolioItems);
+        initLightbox(); // Hook up lightbox event handlers after render
+    } catch (err) {
+        console.error('Error loading gallery:', err);
+        galleryGrid.innerHTML = `<p class="text-center text-muted" style="grid-column: 1/-1; padding: 40px 0;">Error loading portfolio. Please refresh.</p>`;
+    }
     
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remove active class from previous active button
             filterButtons.forEach(button => button.classList.remove('active'));
             btn.classList.add('active');
             
             const filterValue = btn.getAttribute('data-filter');
             activeCategory = filterValue;
             
-            galleryItems.forEach(item => {
+            const items = galleryGrid.querySelectorAll('.gallery-item');
+            items.forEach(item => {
                 const itemCategory = item.getAttribute('data-category');
                 
                 if (filterValue === 'all' || itemCategory === filterValue) {
-                    // Show item
                     item.style.display = 'block';
                     setTimeout(() => {
                         item.style.opacity = '1';
                         item.style.transform = 'scale(1)';
                     }, 50);
                 } else {
-                    // Hide item
                     item.style.opacity = '0';
                     item.style.transform = 'scale(0.95)';
                     setTimeout(() => {
                         item.style.display = 'none';
-                    }, 300); // match transition speed
+                    }, 300);
                 }
             });
         });
     });
+}
+
+function renderGallery(items) {
+    const galleryGrid = document.getElementById('galleryGrid');
+    if (!galleryGrid) return;
+    
+    galleryGrid.innerHTML = items.map(item => {
+        let categoryLabel = 'Service';
+        if (item.category === 'bridals') categoryLabel = 'Bridals & Events';
+        else if (item.category === 'makeup') categoryLabel = 'Makeup & Gele';
+        else if (item.category === 'beads') categoryLabel = 'Beads & Aso Ofi';
+        else if (item.category === 'fascinators') categoryLabel = 'Fascinators';
+        else if (item.category === 'catering') categoryLabel = 'Catering';
+        
+        return `
+            <div class="gallery-item" data-category="${item.category}">
+                <div class="gallery-img-box">
+                    <img src="${item.image}" alt="${item.alt}">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">${categoryLabel}</span>
+                        <h4 class="gallery-item-title">${item.title}</h4>
+                        <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 /* ==========================================================================
@@ -632,6 +672,272 @@ function initCalendar() {
     
     // Initial Render
     renderCalendar();
+}
+
+/* ==========================================================================
+   9. Zobolinks Video Control
+   ========================================================================== */
+function initVideoControl() {
+    const video = document.getElementById('zoboVideo');
+    const muteBtn = document.getElementById('videoMuteBtn');
+    
+    if (video && muteBtn) {
+        muteBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            const icon = muteBtn.querySelector('i');
+            if (video.muted) {
+                icon.className = 'fa-solid fa-volume-xmark';
+            } else {
+                icon.className = 'fa-solid fa-volume-high';
+            }
+        });
+    }
+}
+
+/* ==========================================================================
+   10. Admin Portal Panel Logic (Syncs to GitHub)
+   ========================================================================== */
+function initAdminPanel() {
+    const trigger = document.getElementById('admin-login-trigger');
+    const modal = document.getElementById('adminModal');
+    const closeBtn = document.getElementById('adminCloseBtn');
+    
+    const authSection = document.getElementById('adminAuthSection');
+    const panelSection = document.getElementById('adminPanelSection');
+    
+    const adminPinInput = document.getElementById('adminPin');
+    const authSubmitBtn = document.getElementById('authSubmitBtn');
+    const authErrorMsg = document.getElementById('authErrorMsg');
+    
+    const uploadForm = document.getElementById('adminUploadForm');
+    const gitTokenInput = document.getElementById('gitToken');
+    const gitOwnerInput = document.getElementById('gitOwner');
+    const gitRepoInput = document.getElementById('gitRepo');
+    
+    const uploadTitleInput = document.getElementById('uploadTitle');
+    const uploadCategorySelect = document.getElementById('uploadCategory');
+    const uploadFileInput = document.getElementById('uploadFile');
+    const uploadAltInput = document.getElementById('uploadAlt');
+    
+    const uploadStatus = document.getElementById('uploadStatus');
+    const uploadSubmitBtn = document.getElementById('uploadSubmitBtn');
+    
+    const DEFAULT_PIN = '1234'; // Default admin PIN code
+    
+    if (trigger) {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.style.display = 'flex';
+            modal.setAttribute('aria-hidden', 'false');
+            
+            if (sessionStorage.getItem('trinsore_admin_authenticated') === 'true') {
+                authSection.style.display = 'none';
+                panelSection.style.display = 'block';
+                loadConfig();
+            } else {
+                authSection.style.display = 'block';
+                panelSection.style.display = 'none';
+                adminPinInput.value = '';
+                authErrorMsg.style.display = 'none';
+                adminPinInput.focus();
+            }
+        });
+    }
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+        });
+    }
+    
+    if (authSubmitBtn) {
+        authSubmitBtn.addEventListener('click', handleAuth);
+    }
+    if (adminPinInput) {
+        adminPinInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleAuth();
+        });
+    }
+    
+    function handleAuth() {
+        if (adminPinInput.value === DEFAULT_PIN) {
+            sessionStorage.setItem('trinsore_admin_authenticated', 'true');
+            authSection.style.display = 'none';
+            panelSection.style.display = 'block';
+            loadConfig();
+        } else {
+            authErrorMsg.style.display = 'block';
+            adminPinInput.value = '';
+            adminPinInput.focus();
+        }
+    }
+    
+    function loadConfig() {
+        gitTokenInput.value = localStorage.getItem('trinsore_git_token') || '';
+        gitOwnerInput.value = localStorage.getItem('trinsore_git_owner') || 'inioluwaoluwajemito-netizen';
+        gitRepoInput.value = localStorage.getItem('trinsore_git_repo') || 'Trinsore';
+    }
+    
+    if (uploadForm) {
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = gitTokenInput.value.trim();
+            const owner = gitOwnerInput.value.trim();
+            const repo = gitRepoInput.value.trim();
+            
+            if (!token || !owner || !repo) {
+                showStatus('Please configure GitHub API Settings.', 'error');
+                return;
+            }
+            
+            localStorage.setItem('trinsore_git_token', token);
+            localStorage.setItem('trinsore_git_owner', owner);
+            localStorage.setItem('trinsore_git_repo', repo);
+            
+            const title = uploadTitleInput.value.trim();
+            const category = uploadCategorySelect.value;
+            const file = uploadFileInput.files[0];
+            const alt = uploadAltInput.value.trim();
+            
+            if (!file) {
+                showStatus('Please select an image file.', 'error');
+                return;
+            }
+            
+            setLoading(true);
+            showStatus('Converting image to Base64...', 'info');
+            
+            try {
+                const base64Content = await getBase64(file);
+                const base64Data = base64Content.split(',')[1];
+                
+                const sanitizeFilename = file.name.replace(/[^a-z0-9.]/gi, '_').toLowerCase();
+                const filename = `${Date.now()}_${sanitizeFilename}`;
+                const imagePath = `assets/images/${filename}`;
+                
+                showStatus('Uploading image to GitHub repository...', 'info');
+                
+                const imgUploadUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imagePath}`;
+                const imgRes = await fetch(imgUploadUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `admin: upload portfolio image ${filename}`,
+                        content: base64Data
+                    })
+                });
+                
+                if (!imgRes.ok) {
+                    const errorDetails = await imgRes.json();
+                    throw new Error(`Failed to upload image: ${errorDetails.message || imgRes.statusText}`);
+                }
+                
+                showStatus('Fetching current portfolio database...', 'info');
+                
+                const dbUrl = `https://api.github.com/repos/${owner}/${repo}/contents/assets/data/portfolio.json`;
+                const dbRes = await fetch(dbUrl, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+                
+                if (!dbRes.ok) {
+                    throw new Error('Failed to load portfolio database from GitHub');
+                }
+                
+                const dbData = await dbRes.json();
+                const dbSha = dbData.sha;
+                const dbContentText = decodeURIComponent(escape(atob(dbData.content)));
+                const currentPortfolio = JSON.parse(dbContentText);
+                
+                const newItem = {
+                    id: String(currentPortfolio.length + 1),
+                    title: title,
+                    category: category,
+                    image: imagePath,
+                    alt: alt
+                };
+                
+                currentPortfolio.push(newItem);
+                const updatedContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentPortfolio, null, 2))));
+                
+                showStatus('Syncing database update to GitHub...', 'info');
+                
+                const updateRes = await fetch(dbUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `admin: add ${title} to portfolio registry`,
+                        content: updatedContentBase64,
+                        sha: dbSha
+                    })
+                });
+                
+                if (!updateRes.ok) {
+                    throw new Error('Failed to save portfolio registry update back to GitHub');
+                }
+                
+                showStatus('✨ Upload Success! Vercel redeployment triggered. The new image will go live in about 1 minute.', 'success');
+                uploadForm.reset();
+                loadConfig();
+            } catch (err) {
+                console.error(err);
+                showStatus(`Upload Error: ${err.message}`, 'error');
+            } finally {
+                setLoading(false);
+            }
+        });
+    }
+    
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+    
+    function showStatus(msg, type) {
+        uploadStatus.style.display = 'block';
+        uploadStatus.textContent = msg;
+        uploadStatus.className = 'upload-status';
+        
+        if (type === 'error') {
+            uploadStatus.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+            uploadStatus.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+            uploadStatus.style.color = '#ef4444';
+        } else if (type === 'success') {
+            uploadStatus.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
+            uploadStatus.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+            uploadStatus.style.color = '#10b981';
+        } else {
+            uploadStatus.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+            uploadStatus.style.border = '1px solid rgba(212, 175, 55, 0.3)';
+            uploadStatus.style.color = 'var(--gold-primary)';
+        }
+    }
+    
+    function setLoading(isLoading) {
+        const btnText = uploadSubmitBtn.querySelector('.btn-text');
+        const btnSpinner = uploadSubmitBtn.querySelector('.btn-spinner');
+        
+        if (isLoading) {
+            uploadSubmitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnSpinner.style.display = 'inline-block';
+        } else {
+            uploadSubmitBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            btnSpinner.style.display = 'none';
+        }
+    }
 }
 
 /* ==========================================================================

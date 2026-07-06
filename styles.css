@@ -1890,3 +1890,109 @@ img {
         gap: 30px;
     }
 }
+
+/* ==========================================================================
+   11. Admin Panel Modal & Forms
+   ========================================================================== */
+.admin-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5, 10, 24, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: var(--transition-smooth);
+}
+
+.admin-modal-card {
+    background-color: var(--bg-darker);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    position: relative;
+    box-shadow: var(--shadow-gold-glow);
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-primary) var(--bg-dark);
+}
+
+.admin-modal-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.admin-modal-card::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+.admin-modal-card::-webkit-scrollbar-thumb {
+    background-color: var(--gold-primary);
+    border-radius: 3px;
+}
+
+.admin-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--transition-fast);
+}
+
+.admin-modal-close:hover {
+    color: var(--gold-primary);
+    transform: rotate(90deg);
+}
+
+.admin-config-details {
+    border: 1px solid var(--glass-border);
+    background-color: rgba(5, 10, 24, 0.4);
+    padding: 12px 16px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 24px;
+    transition: var(--transition-smooth);
+}
+
+.admin-config-details summary {
+    outline: none;
+    user-select: none;
+}
+
+.admin-config-details[open] {
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+.upload-status {
+    text-align: center;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.btn-spinner {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 576px) {
+    .admin-modal-card {
+        padding: 30px 20px;
+    }
+}
