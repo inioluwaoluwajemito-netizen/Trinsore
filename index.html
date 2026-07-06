@@ -669,20 +669,22 @@
     <div class="admin-modal" id="adminModal" aria-hidden="true" role="dialog">
         <div class="admin-modal-card">
             <button class="admin-modal-close" id="adminCloseBtn">&times;</button>
-            <div id="adminAuthSection">
-                <h3 class="gold-text text-center">Admin Access</h3>
-                <p class="text-muted text-center" style="font-size: 0.9rem; margin-bottom: 20px;">Enter your credentials to manage the portfolio.</p>
-                <div class="form-group">
-                    <label for="adminEmail">Email Address</label>
-                    <input type="email" id="adminEmail" placeholder="admin@example.com" required>
+            <form id="adminLoginForm">
+                <div id="adminAuthSection">
+                    <h3 class="gold-text text-center">Admin Access</h3>
+                    <p class="text-muted text-center" style="font-size: 0.9rem; margin-bottom: 20px;">Enter your credentials to manage the portfolio.</p>
+                    <div class="form-group">
+                        <label for="adminEmail">Email Address</label>
+                        <input type="email" id="adminEmail" placeholder="admin@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" id="adminPassword" placeholder="••••••••" required>
+                        <span class="error-msg" id="authErrorMsg">Incorrect email or password. Please try again.</span>
+                    </div>
+                    <button type="submit" class="btn btn-gold btn-full" id="authSubmitBtn" style="margin-top: 15px;">Access Panel</button>
                 </div>
-                <div class="form-group">
-                    <label for="adminPassword">Password</label>
-                    <input type="password" id="adminPassword" placeholder="••••••••" required>
-                    <span class="error-msg" id="authErrorMsg">Incorrect email or password. Please try again.</span>
-                </div>
-                <button type="button" class="btn btn-gold btn-full" id="authSubmitBtn" style="margin-top: 15px;">Access Panel</button>
-            </div>
+            </form>
             
             <div id="adminPanelSection" style="display: none;">
                 <h3 class="gold-text text-center" style="margin-bottom: 5px;">Portfolio Manager</h3>

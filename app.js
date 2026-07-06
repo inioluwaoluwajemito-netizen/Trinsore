@@ -702,12 +702,12 @@ function initAdminPanel() {
     const modal = document.getElementById('adminModal');
     const closeBtn = document.getElementById('adminCloseBtn');
     
+    const loginForm = document.getElementById('adminLoginForm');
     const authSection = document.getElementById('adminAuthSection');
     const panelSection = document.getElementById('adminPanelSection');
     
     const adminEmailInput = document.getElementById('adminEmail');
     const adminPasswordInput = document.getElementById('adminPassword');
-    const authSubmitBtn = document.getElementById('authSubmitBtn');
     const authErrorMsg = document.getElementById('authErrorMsg');
     
     const uploadForm = document.getElementById('adminUploadForm');
@@ -754,17 +754,10 @@ function initAdminPanel() {
         });
     }
     
-    if (authSubmitBtn) {
-        authSubmitBtn.addEventListener('click', handleAuth);
-    }
-    if (adminEmailInput) {
-        adminEmailInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') adminPasswordInput.focus();
-        });
-    }
-    if (adminPasswordInput) {
-        adminPasswordInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleAuth();
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleAuth();
         });
     }
     
@@ -831,7 +824,7 @@ function initAdminPanel() {
                 const imgRes = await fetch(imgUploadUrl, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
@@ -849,7 +842,7 @@ function initAdminPanel() {
                 
                 const dbUrl = `https://api.github.com/repos/${owner}/${repo}/contents/assets/data/portfolio.json`;
                 const dbRes = await fetch(dbUrl, {
-                    headers: { 'Authorization': `token ${token}` }
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 
                 if (!dbRes.ok) {
@@ -877,7 +870,7 @@ function initAdminPanel() {
                 const updateRes = await fetch(dbUrl, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
