@@ -711,10 +711,6 @@ function initAdminPanel() {
     const authErrorMsg = document.getElementById('authErrorMsg');
     
     const uploadForm = document.getElementById('adminUploadForm');
-    const gitTokenInput = document.getElementById('gitToken');
-    const gitOwnerInput = document.getElementById('gitOwner');
-    const gitRepoInput = document.getElementById('gitRepo');
-    
     const uploadTitleInput = document.getElementById('uploadTitle');
     const uploadCategorySelect = document.getElementById('uploadCategory');
     const uploadFileInput = document.getElementById('uploadFile');
@@ -735,7 +731,6 @@ function initAdminPanel() {
             if (sessionStorage.getItem('trinsore_admin_authenticated') === 'true') {
                 authSection.style.display = 'none';
                 panelSection.style.display = 'block';
-                loadConfig();
             } else {
                 authSection.style.display = 'block';
                 panelSection.style.display = 'none';
@@ -766,7 +761,6 @@ function initAdminPanel() {
             sessionStorage.setItem('trinsore_admin_authenticated', 'true');
             authSection.style.display = 'none';
             panelSection.style.display = 'block';
-            loadConfig();
         } else {
             authErrorMsg.style.display = 'block';
             adminPasswordInput.value = '';
@@ -774,28 +768,9 @@ function initAdminPanel() {
         }
     }
     
-    function loadConfig() {
-        gitTokenInput.value = localStorage.getItem('trinsore_git_token') || '';
-        gitOwnerInput.value = localStorage.getItem('trinsore_git_owner') || 'inioluwaoluwajemito-netizen';
-        gitRepoInput.value = localStorage.getItem('trinsore_git_repo') || 'Trinsore';
-    }
-    
     if (uploadForm) {
         uploadForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const token = gitTokenInput.value.trim();
-            const owner = gitOwnerInput.value.trim();
-            const repo = gitRepoInput.value.trim();
-            
-            if (!token || !owner || !repo) {
-                showStatus('Please configure GitHub API Settings.', 'error');
-                return;
-            }
-            
-            localStorage.setItem('trinsore_git_token', token);
-            localStorage.setItem('trinsore_git_owner', owner);
-            localStorage.setItem('trinsore_git_repo', repo);
             
             const title = uploadTitleInput.value.trim();
             const category = uploadCategorySelect.value;
@@ -814,79 +789,30 @@ function initAdminPanel() {
                 const base64Content = await getBase64(file);
                 const base64Data = base64Content.split(',')[1];
                 
-                const sanitizeFilename = file.name.replace(/[^a-z0-9.]/gi, '_').toLowerCase();
-                const filename = `${Date.now()}_${sanitizeFilename}`;
-                const imagePath = `assets/images/${filename}`;
+                showStatus('Uploading portfolio update to backend...', 'info');
                 
-                showStatus('Uploading image to GitHub repository...', 'info');
-                
-                const imgUploadUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imagePath}`;
-                const imgRes = await fetch(imgUploadUrl, {
-                    method: 'PUT',
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: `admin: upload portfolio image ${filename}`,
-                        content: base64Data
+                        title: title,
+                        category: category,
+                        alt: alt,
+                        fileName: file.name,
+                        fileData: base64Data
                     })
                 });
                 
-                if (!imgRes.ok) {
-                    const errorDetails = await imgRes.json();
-                    throw new Error(`Failed to upload image: ${errorDetails.message || imgRes.statusText}`);
+                const result = await response.json();
+                
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Serverless upload failed.');
                 }
                 
-                showStatus('Fetching current portfolio database...', 'info');
-                
-                const dbUrl = `https://api.github.com/repos/${owner}/${repo}/contents/assets/data/portfolio.json`;
-                const dbRes = await fetch(dbUrl, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (!dbRes.ok) {
-                    throw new Error('Failed to load portfolio database from GitHub');
-                }
-                
-                const dbData = await dbRes.json();
-                const dbSha = dbData.sha;
-                const dbContentText = decodeURIComponent(escape(atob(dbData.content)));
-                const currentPortfolio = JSON.parse(dbContentText);
-                
-                const newItem = {
-                    id: String(currentPortfolio.length + 1),
-                    title: title,
-                    category: category,
-                    image: imagePath,
-                    alt: alt
-                };
-                
-                currentPortfolio.push(newItem);
-                const updatedContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentPortfolio, null, 2))));
-                
-                showStatus('Syncing database update to GitHub...', 'info');
-                
-                const updateRes = await fetch(dbUrl, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: `admin: add ${title} to portfolio registry`,
-                        content: updatedContentBase64,
-                        sha: dbSha
-                    })
-                });
-                
-                if (!updateRes.ok) {
-                    throw new Error('Failed to save portfolio registry update back to GitHub');
-                }
-                
-                showStatus('✨ Upload Success! Vercel redeployment triggered. The new image will go live in about 1 minute.', 'success');
+                showStatus('✨ Upload Success! The new image is pushed to GitHub and will go live on the site in about 1 minute.', 'success');
                 uploadForm.reset();
-                loadConfig();
             } catch (err) {
                 console.error(err);
                 showStatus(`Upload Error: ${err.message}`, 'error');
