@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trinsore Events — Premium Bridal & Event Services</title>
+    <meta name="description" content="Trinsore Events offers luxury bridal makeup, gele styling, traditional Aso Ofi, bridal beads, custom fascinators, premium catering, and flawless event planning and coordination across Nigeria. Book your consultation today.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Glass Navigation -->
+    <header class="main-header" id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo-container" aria-label="Trinsore Events Home">
+                <!-- Custom SVG Monogram Logo (Gold TE Monogram) -->
+                <svg class="gold-logo" viewBox="0 0 100 100" width="55" height="55" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="url(#gold-gradient)" stroke-width="1.5" />
+                    <circle cx="50" cy="50" r="41" fill="none" stroke="url(#gold-gradient)" stroke-width="0.5" stroke-dasharray="3,3" />
+                    <defs>
+                        <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#F3E5AB" />
+                            <stop offset="50%" stop-color="#D4AF37" />
+                            <stop offset="100%" stop-color="#AA7C11" />
+                        </linearGradient>
+                    </defs>
+                    <text x="50%" y="58%" font-family="'Playfair Display', serif" font-size="28" font-weight="700" fill="url(#gold-gradient)" text-anchor="middle" letter-spacing="-1">TE</text>
+                </svg>
+                <div class="logo-text">
+                    <span class="brand-name">TRINSORE</span>
+                    <span class="brand-sub">EVENTS</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="desktop-nav" aria-label="Main Navigation">
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                    <li><a href="#testimonials" class="nav-link">Reviews</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Action Button -->
+            <div class="header-actions">
+                <a href="https://wa.me/2348137270255" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-nav" id="nav-whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i> Chat Now
+                </a>
+                <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+        <ul class="drawer-links">
+            <li><a href="#home" class="drawer-link">Home</a></li>
+            <li><a href="#about" class="drawer-link">About</a></li>
+            <li><a href="#services" class="drawer-link">Services</a></li>
+            <li><a href="#gallery" class="drawer-link">Gallery</a></li>
+            <li><a href="#testimonials" class="drawer-link">Reviews</a></li>
+            <li><a href="#contact" class="drawer-link">Contact</a></li>
+            <li>
+                <a href="https://wa.me/2348137270255" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-drawer">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Inquiry
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="hero-bg-overlay"></div>
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="badge-gold fade-in">Bridal & Event Excellence</div>
+                    <h1 class="hero-title fade-in">Crafting Unforgettable Moments & Luxury Bridal Styling</h1>
+                    <p class="hero-lead fade-in">From custom bridal beads and impeccable gele tying to full-scale event coordination and catering services. We turn your dream celebrations into reality.</p>
+                    <div class="hero-ctas fade-in">
+                        <a href="#contact" class="btn btn-gold btn-lg"><i class="fa-solid fa-calendar-check"></i> Book Consultation</a>
+                        <a href="#services" class="btn btn-outline btn-lg">Our Services</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Contact Bar -->
+            <div class="quick-contact-bar">
+                <div class="container quick-contact-container">
+                    <div class="contact-item">
+                        <i class="fab fa-whatsapp gold-text"></i>
+                        <span>WhatsApp: <a href="https://wa.me/2348137270255" target="_blank" rel="noopener">0813 727 0255</a></span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fa-solid fa-phone gold-text"></i>
+                        <span>Call Us: <a href="tel:+2348125031078">0812 503 1078</a></span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-instagram gold-text"></i>
+                        <span>Follow: <a href="https://instagram.com/trinsore_events" target="_blank" rel="noopener">@trinsore_events</a></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section section-padding">
+            <div class="container">
+                <div class="section-header text-center fade-in">
+                    <span class="section-subtitle">Our Story</span>
+                    <h2 class="section-title">About Trinsore Events</h2>
+                    <div class="title-divider">
+                        <svg class="divider-svg" viewBox="0 0 100 10" width="80" height="8">
+                            <line x1="0" y1="5" x2="40" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                            <circle cx="50" cy="5" r="3.5" fill="url(#gold-gradient)"/>
+                            <line x1="60" y1="5" x2="100" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="about-grid fade-in">
+                    <div class="about-text-content">
+                        <h3>A Legacy of Elegance and Flawless Execution</h3>
+                        <p>Trinsore Events is a premium Nigerian bridal and event planning brand. We specialize in curating luxury experiences for weddings, milestone events, and corporate celebrations, taking the stress away from clients so they can focus on making beautiful memories.</p>
+                        <p>We pride ourselves on attention to detail, styling brides with custom hand-crafted bridal beads, professionally tied Gele, and exquisite makeup. Our full-scale event coordination and catering services ensure that every aspect of your celebration—from visual splendor to culinary delight—is executed to perfection.</p>
+                        
+                        <div class="about-features">
+                            <div class="feature-badge">
+                                <div class="feature-icon"><i class="fa-solid fa-gem"></i></div>
+                                <div class="feature-info">
+                                    <h4>Premium Quality</h4>
+                                    <p>High-end styling and curation tailored to your exact taste.</p>
+                                </div>
+                            </div>
+                            <div class="feature-badge">
+                                <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
+                                <div class="feature-info">
+                                    <h4>Flawless Timelines</h4>
+                                    <p>Strict event management and coordination on your big day.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image-showcase">
+                        <div class="glass-image-wrapper">
+                            <img src="assets/images/bridals_events.png" alt="Bridal reception decoration setup by Trinsore Events" class="about-img main-img">
+                            <div class="floating-stat-card">
+                                <span class="stat-number">100%</span>
+                                <span class="stat-label">Client Satisfaction</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services-section section-padding">
+            <div class="container">
+                <div class="section-header text-center fade-in">
+                    <span class="section-subtitle">What We Offer</span>
+                    <h2 class="section-title">Our Premium Services</h2>
+                    <div class="title-divider">
+                        <svg class="divider-svg" viewBox="0 0 100 10" width="80" height="8">
+                            <line x1="0" y1="5" x2="40" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                            <circle cx="50" cy="5" r="3.5" fill="url(#gold-gradient)"/>
+                            <line x1="60" y1="5" x2="100" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="services-grid fade-in">
+                    <!-- Service 1 -->
+                    <div class="service-card" data-service="bridals">
+                        <div class="card-icon"><i class="fa-solid fa-ring"></i></div>
+                        <h3>Bridals and Events</h3>
+                        <p>Complete custom styling for modern brides and luxury event curation. We craft aesthetic backdrops, custom designs, and unforgettable atmospheres.</p>
+                        <a href="#contact" class="card-link" onclick="prefillService('Bridals and Events')">Inquire Service <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <!-- Service 2 -->
+                    <div class="service-card" data-service="beads">
+                        <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
+                        <h3>Bridal Beads</h3>
+                        <p>Stunning, custom-designed coral beads and jewelry suites hand-crafted to complement traditional bridal attire with royal majesty.</p>
+                        <a href="#contact" class="card-link" onclick="prefillService('Bridal Beads')">Inquire Service <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="service-card" data-service="makeup">
+                        <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <h3>Makeup and Gele</h3>
+                        <p>Flawless glam makeup matched with masterfully tied traditional Gele headties that stay secure, crisp, and camera-ready all day.</p>
+                        <a href="#contact" class="card-link" onclick="prefillService('Makeup and Gele')">Inquire Service <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="service-card" data-service="aso-ofi">
+                        <div class="card-icon"><i class="fa-solid fa-vest-patches"></i></div>
+                        <h3>Aso Ofi & Embellishments</h3>
+                        <p>Sourcing premium woven Aso Ofi fabrics, tailored embellishments, and custom designs that reflect rich heritage and modern luxury.</p>
+                        <a href="#contact" class="card-link" onclick="prefillService('Aso Ofi and Embellishments')">Inquire Service <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="service-card" data-service="fascinators">
+                        <div class="card-icon"><i class="fa-solid fa-hat-cowboy"></i></div>
+                        <h3>Fascinators & Hats</h3>
+                        <p>Handcrafted, exclusive fascinators and custom headpieces suited for brides, wedding guests, mother-of-the-day, and elite gatherings.</p>
+                        <a href="#contact" class="card-link" onclick="prefillService('Fascinators')">Inquire Service <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Service 6 -->
+                    <div class="service-card" data-service="catering">
+                        <div class="card-icon"><i class="fa-solid fa-utensils"></i></div>
+                        <h3>Catering Services</h3>
+                        <p>A culinary experience featuring rich local delicacies, intercontinental cuisines, elegant desserts, and premium buffet presentations.</p>
+                        <a href="#contact" class="card-link" onclick="prefillService('Catering Services')">Inquire Service <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Service 7 -->
+                    <div class="service-card full-width-card" data-service="coordination">
+                        <div class="card-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <div class="card-text-wrapper">
+                            <h3>Event Planning, Coordination & Management</h3>
+                            <p>End-to-end management of weddings, birthdays, and anniversaries. We handle vendor liaisons, timeline management, floor layout, and operational coordination on-site, ensuring a stress-free and seamless execution.</p>
+                            <a href="#contact" class="card-link" onclick="prefillService('Event Planning, Coordination and Management')">Inquire Service <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery / Portfolio Section -->
+        <section id="gallery" class="gallery-section section-padding">
+            <div class="container">
+                <div class="section-header text-center fade-in">
+                    <span class="section-subtitle">Our Portfolio</span>
+                    <h2 class="section-title">Showcase of Work</h2>
+                    <div class="title-divider">
+                        <svg class="divider-svg" viewBox="0 0 100 10" width="80" height="8">
+                            <line x1="0" y1="5" x2="40" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                            <circle cx="50" cy="5" r="3.5" fill="url(#gold-gradient)"/>
+                            <line x1="60" y1="5" x2="100" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Portfolio Filters -->
+                <div class="gallery-filters fade-in">
+                    <button class="filter-btn active" data-filter="all">All Work</button>
+                    <button class="filter-btn" data-filter="bridals">Bridals & Events</button>
+                    <button class="filter-btn" data-filter="makeup">Makeup & Gele</button>
+                    <button class="filter-btn" data-filter="beads">Beads & Aso Ofi</button>
+                    <button class="filter-btn" data-filter="fascinators">Fascinators</button>
+                    <button class="filter-btn" data-filter="catering">Catering</button>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div class="gallery-grid fade-in">
+                    <!-- Image 1 -->
+                    <div class="gallery-item" data-category="bridals">
+                        <div class="gallery-img-box">
+                            <img src="assets/images/bridals_events.png" alt="Luxury reception setup by Trinsore Events">
+                            <div class="gallery-overlay">
+                                <span class="gallery-category">Bridals & Events</span>
+                                <h4 class="gallery-item-title">Ornate Banquet Hall Design</h4>
+                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div class="gallery-item" data-category="makeup">
+                        <div class="gallery-img-box">
+                            <img src="assets/images/makeup_gele.png" alt="Bridal makeup and gele tied by Trinsore Events">
+                            <div class="gallery-overlay">
+                                <span class="gallery-category">Makeup & Gele</span>
+                                <h4 class="gallery-item-title">Royal Blue Gele Glam</h4>
+                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image 3 -->
+                    <div class="gallery-item" data-category="beads">
+                        <div class="gallery-img-box">
+                            <img src="assets/images/beads_aso_ofi.png" alt="Intricate coral bead setup and Aso Ofi by Trinsore Events">
+                            <div class="gallery-overlay">
+                                <span class="gallery-category">Beads & Aso Ofi</span>
+                                <h4 class="gallery-item-title">Coral Majesty Bridal Suite</h4>
+                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image 4 -->
+                    <div class="gallery-item" data-category="catering">
+                        <div class="gallery-img-box">
+                            <img src="assets/images/catering_services.png" alt="Dessert buffet catering by Trinsore Events">
+                            <div class="gallery-overlay">
+                                <span class="gallery-category">Catering</span>
+                                <h4 class="gallery-item-title">Exquisite Dessert Table</h4>
+                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image 5 -->
+                    <div class="gallery-item" data-category="fascinators">
+                        <div class="gallery-img-box">
+                            <img src="assets/images/fascinators.png" alt="Bespoke luxury fascinator by Trinsore Events">
+                            <div class="gallery-overlay">
+                                <span class="gallery-category">Fascinators</span>
+                                <h4 class="gallery-item-title">High-Society Pearl Fascinator</h4>
+                                <button class="btn-lightbox-trigger" aria-label="Enlarge image"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials-section section-padding">
+            <div class="container">
+                <div class="section-header text-center fade-in">
+                    <span class="section-subtitle">Client Reviews</span>
+                    <h2 class="section-title">Words from Our Clients</h2>
+                    <div class="title-divider">
+                        <svg class="divider-svg" viewBox="0 0 100 10" width="80" height="8">
+                            <line x1="0" y1="5" x2="40" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                            <circle cx="50" cy="5" r="3.5" fill="url(#gold-gradient)"/>
+                            <line x1="60" y1="5" x2="100" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Carousel Slider -->
+                <div class="testimonials-carousel-wrapper fade-in">
+                    <div class="testimonials-carousel" id="testimonial-slider">
+                        <!-- Review 1 -->
+                        <div class="testimonial-slide active">
+                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                            <p class="testimonial-text">"Trinsore Events styled me for my wedding and I felt like a queen. The makeup was elegant and did not feel heavy, and my gele was perfectly secured. Everyone commented on my coral beads, which were custom made. Highly recommend Izzy and her team!"</p>
+                            <div class="client-meta">
+                                <h5 class="client-name">Adebisi O.</h5>
+                                <span class="client-event">Traditional Wedding Client</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="testimonial-slide">
+                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                            <p class="testimonial-text">"Izzy Techub coordinated our 300-guest reception, and the execution was flawless. The catering buffet setup was premium and the food tasted delicious. We didn't have to stress about anything on our big day. Worth every single Naira!"</p>
+                            <div class="client-meta">
+                                <h5 class="client-name">Mr. & Mrs. Balogun</h5>
+                                <span class="client-event">Wedding Reception Coordination</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 3 -->
+                        <div class="testimonial-slide">
+                            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                            <p class="testimonial-text">"My fascinator for my daughter's wedding was custom made. It was extremely comfortable and matched my Aso-Ofi outfit perfectly. The craftsmanship and attention to detail at Trinsore Events is absolutely unmatched."</p>
+                            <div class="client-meta">
+                                <h5 class="client-name">Chief Mrs. Alabi</h5>
+                                <span class="client-event">Custom Fascinator Client</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carousel Controls -->
+                    <div class="carousel-nav">
+                        <button class="carousel-btn btn-prev" aria-label="Previous Review" id="prev-slide"><i class="fa-solid fa-chevron-left"></i></button>
+                        <div class="carousel-dots" id="carousel-dots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                            <span class="dot" data-index="2"></span>
+                        </div>
+                        <button class="carousel-btn btn-next" aria-label="Next Review" id="next-slide"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section section-padding">
+            <div class="container">
+                <div class="section-header text-center fade-in">
+                    <span class="section-subtitle">Get In Touch</span>
+                    <h2 class="section-title">Book a Consultation</h2>
+                    <div class="title-divider">
+                        <svg class="divider-svg" viewBox="0 0 100 10" width="80" height="8">
+                            <line x1="0" y1="5" x2="40" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                            <circle cx="50" cy="5" r="3.5" fill="url(#gold-gradient)"/>
+                            <line x1="60" y1="5" x2="100" y2="5" stroke="url(#gold-gradient)" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="contact-grid fade-in">
+                    <!-- Left: Contact Details -->
+                    <div class="contact-info-panel">
+                        <h3>Connect Directly</h3>
+                        <p class="contact-desc">Ready to plan your next event or design your bridal styling? Chat with us directly on WhatsApp or call our phone lines. We respond promptly.</p>
+                        
+                        <div class="contact-details-list">
+                            <!-- WhatsApp Group -->
+                            <div class="info-card">
+                                <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+                                <div class="info-body">
+                                    <h4>Chat on WhatsApp</h4>
+                                    <p class="whatsapp-nums">
+                                        <a href="https://wa.me/2348137270255" target="_blank" rel="noopener" class="wa-link">0813 727 0255 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                        <a href="https://wa.me/2348125031078" target="_blank" rel="noopener" class="wa-link">0812 503 1078 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Phone Group -->
+                            <div class="info-card">
+                                <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                                <div class="info-body">
+                                    <h4>Call Us Directly</h4>
+                                    <p class="phone-nums">
+                                        <a href="tel:+2348137270255" class="phone-link">0813 727 0255</a>
+                                        <a href="tel:+2348125031078" class="phone-link">0812 503 1078</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Instagram Group -->
+                            <div class="info-card">
+                                <div class="info-icon"><i class="fab fa-instagram"></i></div>
+                                <div class="info-body">
+                                    <h4>Follow Instagram</h4>
+                                    <p><a href="https://instagram.com/trinsore_events" target="_blank" rel="noopener" class="insta-link">@trinsore_events <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Brand Statement -->
+                        <div class="premium-badge">
+                            <i class="fa-solid fa-award gold-text"></i>
+                            <div>
+                                <h5>Trinsore Events Standard</h5>
+                                <p>We offer reliable service, elite execution, and exquisite styling for every celebration.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Form -->
+                    <div class="contact-form-panel">
+                        <h3>Send an Inquiry</h3>
+                        <p class="form-instructions">Fill out the details below and we will automatically generate a WhatsApp consultation inquiry for you.</p>
+                        
+                        <form id="inquiryForm" class="inquiry-form" novalidate>
+                            <div class="form-group">
+                                <label for="clientName">Your Full Name <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-user input-icon"></i>
+                                    <input type="text" id="clientName" placeholder="e.g. Adebisi Alao" required>
+                                </div>
+                                <span class="error-msg" id="nameError">Name is required</span>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="clientPhone">Phone Number <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-phone input-icon"></i>
+                                        <input type="tel" id="clientPhone" placeholder="e.g. 08012345678" required>
+                                    </div>
+                                    <span class="error-msg" id="phoneError">Valid phone number required</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="eventType">Select Service / Event <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-gift input-icon"></i>
+                                        <select id="eventType" required>
+                                            <option value="" disabled selected>Choose a service...</option>
+                                            <option value="Bridals and Events">Bridals and Events</option>
+                                            <option value="Bridal Beads">Bridal Beads</option>
+                                            <option value="Makeup and Gele">Makeup and Gele</option>
+                                            <option value="Aso Ofi and Embellishments">Aso Ofi & Embellishments</option>
+                                            <option value="Fascinators">Fascinators & Hats</option>
+                                            <option value="Catering Services">Catering Services</option>
+                                            <option value="Event Planning, Coordination and Management">Planning & Management</option>
+                                            <option value="General Inquiry">General Inquiry</option>
+                                        </select>
+                                    </div>
+                                    <span class="error-msg" id="eventTypeError">Please select an event type</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventDate">Preferred Event Date</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-calendar-days input-icon"></i>
+                                    <input type="date" id="eventDate">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="clientMessage">Your Inquiry Message <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-comment input-icon message-icon"></i>
+                                    <textarea id="clientMessage" rows="4" placeholder="Describe what services you need, estimated guest count, theme..." required></textarea>
+                                </div>
+                                <span class="error-msg" id="messageError">Please share some details about your event</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-gold btn-full btn-lg" id="submitBtn">
+                                <i class="fab fa-whatsapp"></i> Generate WhatsApp Inquiry
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <svg class="gold-logo-footer" viewBox="0 0 100 100" width="70" height="70" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="url(#gold-gradient-footer)" stroke-width="1.5" />
+                        <defs>
+                            <linearGradient id="gold-gradient-footer" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#F3E5AB" />
+                                <stop offset="50%" stop-color="#D4AF37" />
+                                <stop offset="100%" stop-color="#AA7C11" />
+                            </linearGradient>
+                        </defs>
+                        <text x="50%" y="58%" font-family="'Playfair Display', serif" font-size="28" font-weight="700" fill="url(#gold-gradient-footer)" text-anchor="middle" letter-spacing="-1">TE</text>
+                    </svg>
+                    <h4>TRINSORE EVENTS</h4>
+                    <p>Elevating your celebrations, detailing your bridal glam, planning your perfect moments.</p>
+                </div>
+                
+                <div class="footer-links-grid">
+                    <div class="footer-link-col">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About Brand</a></li>
+                            <li><a href="#services">Our Services</a></li>
+                            <li><a href="#gallery">Portfolio Gallery</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-link-col">
+                        <h5>Our Services</h5>
+                        <ul>
+                            <li><a href="#services" onclick="prefillService('Bridals and Events')">Bridals & Events</a></li>
+                            <li><a href="#services" onclick="prefillService('Bridal Beads')">Bridal Beads</a></li>
+                            <li><a href="#services" onclick="prefillService('Makeup and Gele')">Makeup & Gele</a></li>
+                            <li><a href="#services" onclick="prefillService('Catering Services')">Premium Catering</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Trinsore Events. All Rights Reserved. Designed by Inioluwa (Izzy Techub).</p>
+                <div class="footer-socials">
+                    <a href="https://instagram.com/trinsore_events" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/2348137270255" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="tel:+2348125031078" aria-label="Phone Call"><i class="fa-solid fa-phone"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Lightbox Modal -->
+    <div class="lightbox-modal" id="lightbox" aria-hidden="true" role="dialog">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Close Lightbox">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous Image"><i class="fa-solid fa-chevron-left"></i></button>
+        
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightbox-img">
+            <div class="lightbox-caption">
+                <span class="lightbox-cat" id="lightbox-cat">Category</span>
+                <h4 class="lightbox-title" id="lightbox-title">Title</h4>
+            </div>
+        </div>
+
+        <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next Image"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Custom Script -->
+    <script src="app.js"></script>
+</body>
+</html>
