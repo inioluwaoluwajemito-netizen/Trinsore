@@ -917,18 +917,24 @@ function initAdminPanel() {
    9. Zobolinks Video Control
    ========================================================================== */
 function initVideoControl() {
-    const video = document.getElementById('zoboVideo');
-    const muteBtn = document.getElementById('videoMuteBtn');
+    const setupMuteControl = (videoId, btnId) => {
+        const video = document.getElementById(videoId);
+        const muteBtn = document.getElementById(btnId);
+        
+        if (video && muteBtn) {
+            muteBtn.addEventListener('click', () => {
+                video.muted = !video.muted;
+                const icon = muteBtn.querySelector('i');
+                if (video.muted) {
+                    icon.className = 'fa-solid fa-volume-xmark';
+                } else {
+                    icon.className = 'fa-solid fa-volume-high';
+                }
+            });
+        }
+    };
     
-    if (video && muteBtn) {
-        muteBtn.addEventListener('click', () => {
-            video.muted = !video.muted;
-            const icon = muteBtn.querySelector('i');
-            if (video.muted) {
-                icon.className = 'fa-solid fa-volume-xmark';
-            } else {
-                icon.className = 'fa-solid fa-volume-high';
-            }
-        });
-    }
+    setupMuteControl('zoboVideo1', 'videoMuteBtn1');
+    setupMuteControl('zoboVideo2', 'videoMuteBtn2');
+    setupMuteControl('zoboVideo', 'videoMuteBtn');
 }
