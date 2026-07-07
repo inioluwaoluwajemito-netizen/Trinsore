@@ -1370,6 +1370,67 @@ img {
                       radial-gradient(circle at 90% 80%, rgba(17, 26, 54, 0.4) 0%, transparent 50%);
 }
 
+.zobolinks-header-container {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 25px;
+}
+
+.zobolinks-header-logo {
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-gold);
+    background: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 90px;
+    flex-shrink: 0;
+}
+
+.zobolinks-header-logo img {
+    max-height: 70px;
+    max-width: 120px;
+    object-fit: contain;
+    display: block;
+}
+
+.zobolinks-header-text {
+    flex-grow: 1;
+}
+
+.zobolinks-header-text .section-subtitle,
+.zobolinks-header-text .section-title {
+    text-align: left;
+}
+
+.zobolinks-header-text .divider-svg {
+    margin-left: 0;
+}
+
+@media (max-width: 768px) {
+    .zobolinks-header-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .zobolinks-header-text .section-subtitle,
+    .zobolinks-header-text .section-title {
+        text-align: center;
+    }
+    
+    .zobolinks-header-text .divider-svg {
+        margin: 8px auto 0 auto;
+    }
+}
+
 .zobolinks-intro-grid {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
