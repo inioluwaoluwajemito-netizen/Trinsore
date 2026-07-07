@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCalendar();
     initVideoControl();
     initAdminPanel();
+    initLogoTransparency();
 });
 
 /* ==========================================================================
@@ -937,4 +938,44 @@ function initVideoControl() {
     setupMuteControl('zoboVideo1', 'videoMuteBtn1');
     setupMuteControl('zoboVideo2', 'videoMuteBtn2');
     setupMuteControl('zoboVideo', 'videoMuteBtn');
+}
+
+/* ==========================================================================
+   10. Logo White Background Cleaner (Frontend Canvas Helper)
+   ========================================================================== */
+function initLogoTransparency() {
+    const logoImg = document.getElementById('zoboLogoImg');
+    if (logoImg) {
+        const cleanBg = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = logoImg.naturalWidth || logoImg.width;
+            canvas.height = logoImg.naturalHeight || logoImg.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(logoImg, 0, 0);
+            
+            try {
+                const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imgData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i+1];
+                    const b = data[i+2];
+                    // Clean pixels that are very close to white
+                    if (r > 235 && g > 235 && b > 235) {
+                        data[i+3] = 0; // Set Alpha transparent
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+                logoImg.src = canvas.toDataURL();
+            } catch (e) {
+                console.error('Failed to make logo transparent:', e);
+            }
+        };
+        
+        if (logoImg.complete) {
+            cleanBg();
+        } else {
+            logoImg.addEventListener('load', cleanBg);
+        }
+    }
 }
