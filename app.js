@@ -1,6 +1,16 @@
 // Trinsore Events — Frontend Logic
 // Author: Inioluwa (Izzy Techub)
 
+// Supabase Configuration
+// Configure these variables with your Supabase project credentials to connect your database and storage.
+const SUPABASE_URL = '';
+const SUPABASE_ANON_KEY = '';
+
+let supabaseClient = null;
+if (SUPABASE_URL && SUPABASE_ANON_KEY && typeof supabase !== 'undefined') {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initScrollHeader();
     initMobileNav();
@@ -76,16 +86,31 @@ function initMobileNav() {
 let activeCategory = 'all';
 let portfolioItems = [];
 
-async function initPortfolioFilter() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
+async function loadAndRenderGallery() {
     const galleryGrid = document.getElementById('galleryGrid');
-    
     if (!galleryGrid) return;
     
     try {
-        const response = await fetch('assets/data/portfolio.json');
-        if (!response.ok) throw new Error('Failed to load portfolio items');
-        portfolioItems = await response.json();
+        if (supabaseClient) {
+            const { data, error } = await supabaseClient
+                .from('portfolio')
+                .select('*')
+                .order('id', { ascending: true });
+            
+            if (error) throw error;
+            
+            portfolioItems = data.map(item => ({
+                id: String(item.id),
+                title: item.title,
+                category: item.category,
+                image: item.image_url,
+                alt: item.alt || ''
+            }));
+        } else {
+            const response = await fetch('assets/data/portfolio.json');
+            if (!response.ok) throw new Error('Failed to load portfolio items');
+            portfolioItems = await response.json();
+        }
         
         renderGallery(portfolioItems);
         initLightbox(); // Hook up lightbox event handlers after render
@@ -93,6 +118,15 @@ async function initPortfolioFilter() {
         console.error('Error loading gallery:', err);
         galleryGrid.innerHTML = `<p class="text-center text-muted" style="grid-column: 1/-1; padding: 40px 0;">Error loading portfolio. Please refresh.</p>`;
     }
+}
+
+async function initPortfolioFilter() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryGrid = document.getElementById('galleryGrid');
+    
+    if (!galleryGrid) return;
+    
+    await loadAndRenderGallery();
     
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -782,52 +816,64 @@ function initAdminPanel() {
                 return;
             }
             
+            if (!supabaseClient) {
+                showStatus('Supabase is not configured. Please fill in SUPABASE_URL and SUPABASE_ANON_KEY variables at the top of app.js.', 'error');
+                return;
+            }
+            
             setLoading(true);
-            showStatus('Converting image to Base64...', 'info');
+            showStatus('Uploading image to Supabase Storage...', 'info');
             
             try {
-                const base64Content = await getBase64(file);
-                const base64Data = base64Content.split(',')[1];
+                const fileExt = file.name.split('.').pop();
+                const sanitizeFilename = file.name.split('.')[0].replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                const fileNamePath = `${Date.now()}_${sanitizeFilename}.${fileExt}`;
                 
-                showStatus('Uploading portfolio update to backend...', 'info');
+                const { data: uploadData, error: uploadError } = await supabaseClient.storage
+                    .from('portfolio')
+                    .upload(`images/${fileNamePath}`, file, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
                 
-                const response = await fetch('/api/upload', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        title: title,
-                        category: category,
-                        alt: alt,
-                        fileName: file.name,
-                        fileData: base64Data
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (!response.ok || !result.success) {
-                    throw new Error(result.error || 'Serverless upload failed.');
+                if (uploadError) {
+                    throw new Error(`Storage upload failed: ${uploadError.message}`);
                 }
                 
-                showStatus('✨ Upload Success! The new image is pushed to GitHub and will go live on the site in about 1 minute.', 'success');
+                showStatus('Retrieving public image URL...', 'info');
+                const { data: urlData } = supabaseClient.storage
+                    .from('portfolio')
+                    .getPublicUrl(`images/${fileNamePath}`);
+                
+                const imageUrl = urlData.publicUrl;
+                
+                showStatus('Saving image metadata to database...', 'info');
+                const { error: insertError } = await supabaseClient
+                    .from('portfolio')
+                    .insert([
+                        {
+                            title: title,
+                            category: category,
+                            image_url: imageUrl,
+                            alt: alt
+                        }
+                    ]);
+                
+                if (insertError) {
+                    throw new Error(`Database save failed: ${insertError.message}`);
+                }
+                
+                showStatus('✨ Upload Success! The new image is live in your portfolio.', 'success');
                 uploadForm.reset();
+                
+                // Instantly refresh the gallery grid
+                await loadAndRenderGallery();
             } catch (err) {
                 console.error(err);
                 showStatus(`Upload Error: ${err.message}`, 'error');
             } finally {
                 setLoading(false);
             }
-        });
-    }
-    
-    function getBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
         });
     }
     
