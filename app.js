@@ -1062,6 +1062,8 @@ function initAdminPanel() {
                     let errMsg = uploadError.message;
                     if (errMsg.toLowerCase().includes('bucket not found')) {
                         errMsg = 'Storage bucket "portfolio" was not found in your Supabase project. Please log in to your Supabase Dashboard, go to "Storage", and create a PUBLIC bucket named "portfolio".';
+                    } else if (errMsg.toLowerCase().includes('violates row-level security') || errMsg.toLowerCase().includes('row-level security policy')) {
+                        errMsg = 'Storage upload blocked by Row-Level Security (RLS). Please open your Supabase Dashboard -> Storage -> Policies, click "New Policy" next to your "portfolio" bucket, and allow INSERT, SELECT, and DELETE permissions for public users.';
                     }
                     throw new Error(errMsg);
                 }
