@@ -831,12 +831,17 @@ function initAdminPanel() {
                 return;
             }
             
-            const url = dbUrlInput.value.trim();
+            let url = dbUrlInput.value.trim();
             const key = dbKeyInput.value.trim();
             
             if (!url || !key) {
                 alert('Please enter both your Supabase Project URL and Anon API Key.');
                 return;
+            }
+            
+            // Auto-format project reference ID (e.g. jwzbmplejmzmalspvcsn) into a valid URL
+            if (!url.startsWith('http') && !url.includes('.')) {
+                url = `https://${url}.supabase.co`;
             }
             
             if (!url.startsWith('https://')) {
