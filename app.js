@@ -788,6 +788,22 @@ function initAdminPanel() {
     function updateSupabaseConfigUI() {
         if (!statusBadge) return;
         const config = initSupabase();
+        
+        // Pre-populate input fields with existing configuration so they don't look blank
+        if (config.url && dbUrlInput) dbUrlInput.value = config.url;
+        if (config.key && dbKeyInput) dbKeyInput.value = config.key;
+        
+        if (typeof supabase === 'undefined') {
+            statusBadge.textContent = 'CDN Error';
+            statusBadge.style.background = 'rgba(239, 68, 68, 0.15)';
+            statusBadge.style.color = '#ef4444';
+            statusBadge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+            
+            configFields.style.display = 'block';
+            configActive.style.display = 'none';
+            return;
+        }
+        
         if (config.connected) {
             statusBadge.textContent = 'Connected';
             statusBadge.style.background = 'rgba(16, 185, 129, 0.15)';
@@ -810,16 +826,28 @@ function initAdminPanel() {
     
     if (saveDbConfigBtn) {
         saveDbConfigBtn.addEventListener('click', () => {
+            if (typeof supabase === 'undefined') {
+                alert('⚠️ CDN Error: The Supabase client library could not be loaded. Please verify you are connected to the internet and reload the page.');
+                return;
+            }
+            
             const url = dbUrlInput.value.trim();
             const key = dbKeyInput.value.trim();
             
             if (!url || !key) {
-                alert('Please fill in both the Supabase Project URL and Anon API key.');
+                alert('Please enter both your Supabase Project URL and Anon API Key.');
+                return;
+            }
+            
+            if (!url.startsWith('https://')) {
+                alert('Invalid URL: Your Supabase Project URL must start with "https://".');
                 return;
             }
             
             localStorage.setItem('trinsore_supabase_url', url);
             localStorage.setItem('trinsore_supabase_key', key);
+            
+            alert('✅ Supabase credentials saved successfully!');
             
             updateSupabaseConfigUI();
             loadAndRenderGallery();
@@ -830,8 +858,10 @@ function initAdminPanel() {
         disconnectDbBtn.addEventListener('click', () => {
             localStorage.removeItem('trinsore_supabase_url');
             localStorage.removeItem('trinsore_supabase_key');
-            dbUrlInput.value = '';
-            dbKeyInput.value = '';
+            if (dbUrlInput) dbUrlInput.value = '';
+            if (dbKeyInput) dbKeyInput.value = '';
+            
+            alert('🔌 Disconnected from Supabase. Reverting to local fallback data.');
             
             updateSupabaseConfigUI();
             loadAndRenderGallery();
