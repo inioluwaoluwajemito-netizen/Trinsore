@@ -767,7 +767,32 @@
             
             <div id="adminPanelSection" style="display: none;">
                 <h3 class="gold-text text-center" style="margin-bottom: 5px;">Portfolio Manager</h3>
-                <p class="text-muted text-center" style="font-size: 0.85rem; margin-bottom: 20px;">Upload image and sync directly to GitHub</p>
+                <p class="text-muted text-center" style="font-size: 0.85rem; margin-bottom: 20px;">Upload image and sync directly to Supabase</p>
+                
+                <!-- Supabase Connection Config Panel -->
+                <div class="supabase-config-box" style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 15px; border-radius: var(--border-radius-md); margin-bottom: 20px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--gold-primary);">Supabase Connection</span>
+                        <span id="supabaseStatusBadge" style="font-size: 0.75rem; padding: 3px 8px; border-radius: 50px; background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3);">Disconnected</span>
+                    </div>
+                    
+                    <div id="supabaseConfigFields" style="display: block;">
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label for="dbUrl" style="font-size: 0.8rem; display: block; margin-bottom: 4px;">Project URL</label>
+                            <input type="text" id="dbUrl" placeholder="https://your-project.supabase.co" style="padding: 8px; font-size: 0.85rem; width: 100%; background: rgba(5,10,24,0.6); border: 1px solid var(--glass-border); color: #fff; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label for="dbKey" style="font-size: 0.8rem; display: block; margin-bottom: 4px;">API Anon Key</label>
+                            <input type="password" id="dbKey" placeholder="your-public-anon-key" style="padding: 8px; font-size: 0.85rem; width: 100%; background: rgba(5,10,24,0.6); border: 1px solid var(--glass-border); color: #fff; border-radius: 4px;">
+                        </div>
+                        <button type="button" class="btn btn-gold btn-full" id="saveDbConfigBtn" style="padding: 8px; font-size: 0.85rem; margin-top: 5px;">Save Settings</button>
+                    </div>
+                    
+                    <div id="supabaseConfigActive" style="display: none; font-size: 0.85rem; color: var(--text-muted);">
+                        <p style="margin-bottom: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Connected to: <strong id="connectedUrlText" style="color: var(--text-light);"></strong></p>
+                        <button type="button" class="btn btn-outline" id="disconnectDbBtn" style="padding: 5px 12px; font-size: 0.75rem; border-color: rgba(239,68,68,0.4); color: #ef4444; cursor: pointer;">Disconnect</button>
+                    </div>
+                </div>
                 
                 <form id="adminUploadForm">
 

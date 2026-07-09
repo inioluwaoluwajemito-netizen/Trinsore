@@ -7,9 +7,25 @@ const SUPABASE_URL = '';
 const SUPABASE_ANON_KEY = '';
 
 let supabaseClient = null;
-if (SUPABASE_URL && SUPABASE_ANON_KEY && typeof supabase !== 'undefined') {
-    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function initSupabase() {
+    const url = SUPABASE_URL || localStorage.getItem('trinsore_supabase_url');
+    const key = SUPABASE_ANON_KEY || localStorage.getItem('trinsore_supabase_key');
+    
+    if (url && key && typeof supabase !== 'undefined') {
+        try {
+            supabaseClient = supabase.createClient(url, key);
+            return { url, key, connected: true };
+        } catch (err) {
+            console.error('Error creating Supabase client:', err);
+        }
+    }
+    supabaseClient = null;
+    return { url: '', key: '', connected: false };
 }
+
+// Initial connection attempt
+initSupabase();
 
 document.addEventListener('DOMContentLoaded', () => {
     initScrollHeader();
@@ -90,6 +106,8 @@ let portfolioItems = [];
 async function loadAndRenderGallery() {
     const galleryGrid = document.getElementById('galleryGrid');
     if (!galleryGrid) return;
+    
+    initSupabase();
     
     try {
         if (supabaseClient) {
@@ -754,8 +772,71 @@ function initAdminPanel() {
     const uploadStatus = document.getElementById('uploadStatus');
     const uploadSubmitBtn = document.getElementById('uploadSubmitBtn');
     
+    // DB Config Element Selectors
+    const statusBadge = document.getElementById('supabaseStatusBadge');
+    const configFields = document.getElementById('supabaseConfigFields');
+    const configActive = document.getElementById('supabaseConfigActive');
+    const connectedUrlText = document.getElementById('connectedUrlText');
+    const dbUrlInput = document.getElementById('dbUrl');
+    const dbKeyInput = document.getElementById('dbKey');
+    const saveDbConfigBtn = document.getElementById('saveDbConfigBtn');
+    const disconnectDbBtn = document.getElementById('disconnectDbBtn');
+    
     const ADMIN_EMAIL = 'trinsorecartel@gmail.com';
     const ADMIN_PASSWORD = 'Trinsore1';
+    
+    function updateSupabaseConfigUI() {
+        if (!statusBadge) return;
+        const config = initSupabase();
+        if (config.connected) {
+            statusBadge.textContent = 'Connected';
+            statusBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+            statusBadge.style.color = '#10b981';
+            statusBadge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+            
+            configFields.style.display = 'none';
+            configActive.style.display = 'block';
+            connectedUrlText.textContent = config.url;
+        } else {
+            statusBadge.textContent = 'Disconnected';
+            statusBadge.style.background = 'rgba(239, 68, 68, 0.15)';
+            statusBadge.style.color = '#ef4444';
+            statusBadge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+            
+            configFields.style.display = 'block';
+            configActive.style.display = 'none';
+        }
+    }
+    
+    if (saveDbConfigBtn) {
+        saveDbConfigBtn.addEventListener('click', () => {
+            const url = dbUrlInput.value.trim();
+            const key = dbKeyInput.value.trim();
+            
+            if (!url || !key) {
+                alert('Please fill in both the Supabase Project URL and Anon API key.');
+                return;
+            }
+            
+            localStorage.setItem('trinsore_supabase_url', url);
+            localStorage.setItem('trinsore_supabase_key', key);
+            
+            updateSupabaseConfigUI();
+            loadAndRenderGallery();
+        });
+    }
+    
+    if (disconnectDbBtn) {
+        disconnectDbBtn.addEventListener('click', () => {
+            localStorage.removeItem('trinsore_supabase_url');
+            localStorage.removeItem('trinsore_supabase_key');
+            dbUrlInput.value = '';
+            dbKeyInput.value = '';
+            
+            updateSupabaseConfigUI();
+            loadAndRenderGallery();
+        });
+    }
     
     if (trigger) {
         trigger.addEventListener('click', (e) => {
@@ -766,6 +847,7 @@ function initAdminPanel() {
             if (sessionStorage.getItem('trinsore_admin_authenticated') === 'true') {
                 authSection.style.display = 'none';
                 panelSection.style.display = 'block';
+                updateSupabaseConfigUI();
             } else {
                 authSection.style.display = 'block';
                 panelSection.style.display = 'none';
@@ -796,6 +878,7 @@ function initAdminPanel() {
             sessionStorage.setItem('trinsore_admin_authenticated', 'true');
             authSection.style.display = 'none';
             panelSection.style.display = 'block';
+            updateSupabaseConfigUI();
         } else {
             authErrorMsg.style.display = 'block';
             adminPasswordInput.value = '';
