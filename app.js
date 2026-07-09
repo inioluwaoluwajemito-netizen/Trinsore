@@ -813,6 +813,8 @@ function initAdminPanel() {
             configFields.style.display = 'none';
             configActive.style.display = 'block';
             connectedUrlText.textContent = config.url;
+            
+            loadAdminItemsList();
         } else {
             statusBadge.textContent = 'Disconnected';
             statusBadge.style.background = 'rgba(239, 68, 68, 0.15)';
@@ -821,6 +823,107 @@ function initAdminPanel() {
             
             configFields.style.display = 'block';
             configActive.style.display = 'none';
+            
+            const listContainer = document.getElementById('adminItemsList');
+            if (listContainer) listContainer.innerHTML = '<p class="text-muted" style="font-size: 0.85rem; text-align: center;">Supabase not connected. Please save settings above.</p>';
+        }
+    }
+    
+    async function loadAdminItemsList() {
+        const listContainer = document.getElementById('adminItemsList');
+        if (!listContainer) return;
+        
+        if (!supabaseClient) {
+            listContainer.innerHTML = '<p class="text-muted" style="font-size: 0.85rem; text-align: center;">Supabase not connected. Unable to load items list.</p>';
+            return;
+        }
+        
+        listContainer.innerHTML = '<p class="text-muted" style="font-size: 0.85rem; text-align: center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading gallery items...</p>';
+        
+        try {
+            const { data, error } = await supabaseClient
+                .from('portfolio')
+                .select('*')
+                .order('id', { ascending: false });
+            
+            if (error) throw error;
+            
+            if (data.length === 0) {
+                listContainer.innerHTML = '<p class="text-muted" style="font-size: 0.85rem; text-align: center;">No items in portfolio yet.</p>';
+                return;
+            }
+            
+            listContainer.innerHTML = data.map(item => {
+                let catLabel = item.category;
+                if (item.category === 'bridals') catLabel = 'Bridals';
+                else if (item.category === 'makeup') catLabel = 'Makeup';
+                else if (item.category === 'beads') catLabel = 'Beads';
+                else if (item.category === 'fascinators') catLabel = 'Fascinators';
+                else if (item.category === 'catering') catLabel = 'Catering';
+                
+                return `
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
+                        <div style="display: flex; align-items: center; gap: 10px; overflow: hidden; flex-grow: 1;">
+                            <img src="${item.image_url}" alt="${item.title}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid var(--glass-border); flex-shrink: 0;">
+                            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-grow: 1;">
+                                <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light); display: block; overflow: hidden; text-overflow: ellipsis;">${item.title}</span>
+                                <span style="font-size: 0.75rem; color: var(--gold-primary); font-family: var(--font-primary);">${catLabel}</span>
+                            </div>
+                        </div>
+                        <button type="button" class="admin-item-delete-btn" data-id="${item.id}" data-title="${item.title}" data-image-url="${item.image_url}" style="background: transparent; color: #ef4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 4px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer; flex-shrink: 0; transition: var(--transition-fast);">
+                            <i class="fa-solid fa-trash-can"></i> Delete
+                        </button>
+                    </div>
+                `;
+            }).join('');
+            
+            // Add click listeners to delete buttons
+            const deleteButtons = listContainer.querySelectorAll('.admin-item-delete-btn');
+            deleteButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const id = btn.getAttribute('data-id');
+                    const title = btn.getAttribute('data-title');
+                    const imageUrl = btn.getAttribute('data-image-url');
+                    
+                    if (confirm(`Are you sure you want to delete "${title}"?`)) {
+                        btn.disabled = true;
+                        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Deleting...';
+                        
+                        try {
+                            // 1. Delete database record
+                            const { error: dbError } = await supabaseClient
+                                .from('portfolio')
+                                .delete()
+                                .eq('id', id);
+                            
+                            if (dbError) throw dbError;
+                            
+                            // 2. Delete file from Storage bucket if applicable
+                            if (imageUrl.includes('/storage/v1/object/public/portfolio/')) {
+                                const pathParts = imageUrl.split('/storage/v1/object/public/portfolio/');
+                                if (pathParts.length > 1) {
+                                    const filePath = pathParts[1];
+                                    await supabaseClient.storage
+                                        .from('portfolio')
+                                        .remove([filePath]);
+                                }
+                            }
+                            
+                            alert('✅ Item deleted successfully!');
+                            loadAdminItemsList();
+                            loadAndRenderGallery();
+                        } catch (err) {
+                            console.error('Delete error:', err);
+                            alert(`❌ Delete failed: ${err.message}`);
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Delete';
+                        }
+                    }
+                });
+            });
+        } catch (err) {
+            console.error('Error loading admin items:', err);
+            listContainer.innerHTML = `<p class="text-muted" style="font-size: 0.85rem; text-align: center;">Error loading items list: ${err.message}</p>`;
         }
     }
     
@@ -987,6 +1090,8 @@ function initAdminPanel() {
                 
                 // Instantly refresh the gallery grid
                 await loadAndRenderGallery();
+                // Refresh the admin items manager list
+                loadAdminItemsList();
             } catch (err) {
                 console.error(err);
                 showStatus(`Upload Error: ${err.message}`, 'error');
