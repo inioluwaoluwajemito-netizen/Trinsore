@@ -1059,7 +1059,11 @@ function initAdminPanel() {
                     });
                 
                 if (uploadError) {
-                    throw new Error(`Storage upload failed: ${uploadError.message}`);
+                    let errMsg = uploadError.message;
+                    if (errMsg.toLowerCase().includes('bucket not found')) {
+                        errMsg = 'Storage bucket "portfolio" was not found in your Supabase project. Please log in to your Supabase Dashboard, go to "Storage", and create a PUBLIC bucket named "portfolio".';
+                    }
+                    throw new Error(errMsg);
                 }
                 
                 showStatus('Retrieving public image URL...', 'info');
