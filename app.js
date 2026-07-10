@@ -923,7 +923,18 @@ function initAdminPanel() {
             });
         } catch (err) {
             console.error('Error loading admin items:', err);
-            listContainer.innerHTML = `<p class="text-muted" style="font-size: 0.85rem; text-align: center;">Error loading items list: ${err.message}</p>`;
+            let errMsg = err.message || 'Unknown error';
+            
+            if (errMsg.includes('relation "public.portfolio" does not exist') || errMsg.includes('relation "portfolio" does not exist')) {
+                errMsg = 'Setup Incomplete: The "portfolio" table does not exist in your Supabase database. Please run the SQL command to create it.';
+            } else if (errMsg.includes('JWT') || errMsg.includes('Invalid API key')) {
+                errMsg = 'Invalid Credentials: Your API Key is incorrect. Please check for typos and save again.';
+            }
+            
+            listContainer.innerHTML = `<div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); padding: 10px; border-radius: 6px;">
+                <p style="color: #ef4444; font-size: 0.85rem; margin-bottom: 5px;"><i class="fa-solid fa-circle-exclamation"></i> <strong>Connection Error</strong></p>
+                <p style="color: var(--text-muted); font-size: 0.8rem; line-height: 1.4;">${errMsg}</p>
+            </div>`;
         }
     }
     
