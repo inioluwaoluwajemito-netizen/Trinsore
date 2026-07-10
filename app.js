@@ -3,8 +3,8 @@
 
 // Supabase Configuration
 // Configure these variables with your Supabase project credentials to connect your database and storage.
-const SUPABASE_URL = '';
-const SUPABASE_ANON_KEY = '';
+const SUPABASE_URL = 'https://jwzbmplejmzmalspvcsn.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3emJtcGxlam16bWFsc3B2Y3NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY5ODU0MTEsImV4cCI6MjA4MjU2MTQxMX0.hBbFkAO-gELfX62eNShPj-4ez5ws6-qwORwd0sLgRdw';
 
 let supabaseClient = null;
 
